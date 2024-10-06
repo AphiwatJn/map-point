@@ -13,9 +13,8 @@ export default function Map() {
   const [inCounty, setInCounty] = useState([]);
   const [point, setPoint] = useState([]);
   const [active, setActive] = useState(null);
-  const [ct, setCt] = useState("");
+  const [ct, setCt] = useState("Thailand");
   const [loading, setLoading] = useState(true);
-  const [pointload,setPointLoad] = useState({})
 
   // set Map data
   const mapContainer = useRef(null);
@@ -28,6 +27,7 @@ export default function Map() {
   const numberMatched = 100000;
   const limit = 10000;
 
+  // set Data form get Api
   const url =
     "https://v2k-dev.vallarismaps.com/core/api/features/1.1/collections";
   const api_key =
@@ -184,7 +184,7 @@ export default function Map() {
     });
   }, [API_KEY, lng, lat, zoomLevel]);
 
-  ////////// fetchAll //////////////////////////////////
+  ////////// fetchAll /////////////////////////////////////////////////////////////////////////////////////////////////////////
   const fetchDataAll = async () => {
     const totalFetch = Math.ceil(numberMatched / limit);
     let allFeatures = [];
@@ -201,7 +201,7 @@ export default function Map() {
     };
   };
 
-
+  ///// fetchDataOnlimit /////////////////////////////////////////////////////////////////////////////////////////////////////////
   const fetchDataOnlimit = async (offset, limit) => {
     try {
       const result = await axios.get(`${url}/${collectionsId}/items`, {
@@ -227,6 +227,7 @@ export default function Map() {
     }
   };
 
+  /// Get County from show List //////////////////////////////////////////////////////////////////////////////////
   const GetCounty = (geoJsonData) => {
     const county = [];
     geoJsonData.features.forEach((feature) => {
@@ -237,6 +238,7 @@ export default function Map() {
     setInCounty(county);
   };
 
+  /// filter pointmap ///////////////// point ct /////////////////////////////////////////////////////////////
   useEffect(() => {
     if (map.current && point.features) {
       const result = {
@@ -249,10 +251,12 @@ export default function Map() {
     }
   }, [point, ct]);
 
+  /// LogShow Update ////////////////////// inCounty////////////////////////////////////////////////////////
   useEffect(() => {
     console.log("Updated", inCounty);
   }, [inCounty]);
 
+  // hd setcounty and set setActive button /////////////////////////////////////////////////////
   const hdClick = (county) => {
     setActive(county);
     setCt(county || "");
@@ -275,7 +279,7 @@ export default function Map() {
           </div>
           <test />
         </div>
-        {inCounty.length ? ( 
+        {inCounty.length ? (
           <div className="absolute top-40 right-5 p-4 bg-white  rounded text-sm text-gray-800 text-center">
             <Stack spacing={2} direction="column">
               {inCounty.map((county, index) => (
@@ -289,8 +293,10 @@ export default function Map() {
               ))}
               <Button onClick={() => hdClick()}>AllPoint</Button>
             </Stack>
-            </div>
-          ) : ('') }
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
