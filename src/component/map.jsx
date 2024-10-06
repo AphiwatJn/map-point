@@ -179,7 +179,7 @@ export default function Map() {
           map.current.getCanvas().style.cursor = "";
         });
       } catch (error) {
-        console.error("Error loading GeoJSON data:", error);
+        console.error("Error data:", error);
       }
     });
   }, [API_KEY, lng, lat, zoomLevel]);
@@ -209,7 +209,7 @@ export default function Map() {
       });
 
       return result.data.features.map((item) => ({
-        type: "Feature",
+        type: "FeatureCollection",
         geometry: {
           type: item.geometry.type,
           coordinates: item.geometry.coordinates,
