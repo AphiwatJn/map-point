@@ -13,7 +13,7 @@ export default function Map() {
   const [inCounty, setInCounty] = useState([]);
   const [point, setPoint] = useState([]);
   const [active, setActive] = useState(null);
-  const [ct, setCt] = useState("Thailand");
+  const [ct, setCt] = useState("");
   const [loading, setLoading] = useState(true);
 
   // set Map data
@@ -151,7 +151,6 @@ export default function Map() {
             .setHTML(popupContent)
             .addTo(map.current);
         });
-
         map.current.on("mouseenter", "unclustered-point", () => {
           map.current.getCanvas().style.cursor = "pointer";
         });
@@ -209,7 +208,7 @@ export default function Map() {
       });
 
       return result.data.features.map((item) => ({
-        type: "FeatureCollection",
+        type: "Feature",
         geometry: {
           type: item.geometry.type,
           coordinates: item.geometry.coordinates,
@@ -277,7 +276,6 @@ export default function Map() {
           <div>
             <strong>Zoom Level:</strong> {zoomLevel.toFixed(2)}
           </div>
-          <test />
         </div>
         {inCounty.length ? (
           <div className="absolute top-40 right-5 p-4 bg-white  rounded text-sm text-gray-800 text-center">
